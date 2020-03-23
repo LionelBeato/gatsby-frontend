@@ -1,0 +1,1 @@
+// TODO: page that consumes data from arcadeGames graphql 

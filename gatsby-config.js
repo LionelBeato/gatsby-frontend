@@ -13,6 +13,7 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
+    
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
@@ -25,6 +26,18 @@ module.exports = {
         theme_color: `#663399`,
         display: `minimal-ui`,
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+      },
+    },
+
+    {
+      resolve: "gatsby-source-graphql",
+      options: {
+        // This type will contain remote schema Query type
+        typeName: "JavaAPI",
+        // This is the field under which it's accessible
+        fieldName: "java",
+        // URL to query from
+        url: "http://localhost:8080/graphql",
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
