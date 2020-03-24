@@ -1,11 +1,12 @@
 import React from "react"
 import { Link } from "gatsby"
-
+/** @jsx jsx */
+import { jsx } from 'theme-ui'
 import Layout from "../components/layout"
 import { graphql } from 'gatsby'
 import SEO from "../components/seo"
 
-const SecondPage = ({data}) => (
+const SecondPage = ({data}, props) => (
   <Layout>
     <SEO title="Page two" />
     <h1>Hi from the second page</h1>
@@ -14,6 +15,8 @@ const SecondPage = ({data}) => (
     <div>
 {data.java.animals.map( el => <p>{JSON.stringify(el)}</p>) }
     </div>
+
+    
     <p>Welcome to page 2</p>
     <Link to="/">Go back to the homepage</Link>
   </Layout>
@@ -27,8 +30,6 @@ query MyQuery {
     }
   }
 }
-
-
-    `
+`
 
 export default SecondPage
