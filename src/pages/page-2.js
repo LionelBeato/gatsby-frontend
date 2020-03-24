@@ -16,6 +16,7 @@ const SecondPage = ({data}, props) => (
 {data.java.animals.map( el => <p>{JSON.stringify(el)}</p>) }
     </div>
 
+
     
     <p>Welcome to page 2</p>
     <Link to="/">Go back to the homepage</Link>
