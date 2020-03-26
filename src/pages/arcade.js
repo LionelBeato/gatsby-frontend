@@ -1,13 +1,46 @@
-import React from "react"
+import React, { useState } from 'react';
 import { Link } from "gatsby"
 /** @jsx jsx */
 import { jsx, IconButton } from 'theme-ui'
-import { Flex, Box, Card, Image, Text } from 'theme-ui'
+import { Flex, Button, Box, Card, Image, Text } from 'theme-ui'
 import { graphql } from 'gatsby'
+import { useMutation } from '@apollo/react-hooks'
+import { Query } from 'react-apollo'
+import gql from 'graphql-tag'
 
 
-const ArcadePage = ({ data }) => {
 
+const ADD_GAME = gql`
+mutation ($name: String, $amountOfPlayers: Int) {
+  createArcadeGame(name: $name, amountOfPlayers: $amountOfPlayers) {
+    name
+    amountOfPlayers
+  }
+}
+`
+
+const APOLLO_QUERY = gql`
+{
+  arcadeGames{
+    id
+    name
+    amountOfPlayers
+  }
+}
+
+`
+
+const ArcadePage = () => {
+
+  const [ addGame, {data} ] = useMutation(ADD_GAME)
+
+  const handleClick = () => {
+    console.log("this works!")
+    let n = prompt("please enter arcade game name")
+    let a = prompt("please enter amount of players")
+    addGame({variables: {name: n, amountOfPlayers: a}})
+    window.location.reload(false)
+  }
 
   return (
     <div
@@ -17,31 +50,32 @@ const ArcadePage = ({ data }) => {
         px: 3,
         py: 4,
       }}>
-      {data.java.arcadeGames.map(el =>
-        <Flex sx={{ p: 3 }}>{el.name}<br></br>
-        Amount of players: {el.amountOfPlayers}
-        </Flex>
-        )}
+      
+        <Button onClick={handleClick}>
+          Hello there
+        </Button>
 
+        {/* this is a custom component from Apollo, note how we're passing our query */}
+
+        <Query query={APOLLO_QUERY}>
+          
+        {/* imperative code to handle loading, error, and our data  */}
+          {({data, loading, error}) => {
+              if (loading) return <span>Loading...</span>
+              if (error) return <p>{error.message}</p>
+
+              return <div>
+            {/* simple map higher order function that will render all of our games */}
+                {data.arcadeGames.map(el =>
+                <Flex sx={{ p: 3 }}>{el.name}<br></br>
+                Amount of players: {el.amountOfPlayers}
+                </Flex>
+              )}
+              </div>
+            }}
+        </Query>
     </div>
-
-
-
   )
 }
-
-
-
-
-export const query = graphql`
-query otherQuery {
-  java {
-    arcadeGames{
-      name
-      amountOfPlayers
-    }
-  }
-}
-`
 
 export default ArcadePage
