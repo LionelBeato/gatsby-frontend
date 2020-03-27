@@ -32,6 +32,9 @@ const APOLLO_QUERY = gql`
 
 const ArcadePage = () => {
 
+  // this is a react hook
+  // react hook gives you implementation that you wouldn't have access to in a typical functional component
+  // this particular hook comes from our ApolloProvider
   const [ addGame, {data} ] = useMutation(ADD_GAME)
 
   const handleClick = () => {
